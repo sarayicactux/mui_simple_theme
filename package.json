@@ -5,7 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@faker-js/faker": "^7.3.0",
     "@linaria/core": "^3.0.0-beta.22",
     "@material-ui/styles": "^4.11.5",
     "@mui/icons-material": "^5.10.9",
@@ -95,5 +94,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.0"
   }
 }

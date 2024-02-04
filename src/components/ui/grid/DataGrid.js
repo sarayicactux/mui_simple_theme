@@ -9,6 +9,38 @@ import SearchColumn from "./searchColumn";
 // const options = {
 //   orientation: 'landscape',
 // };
+const customStyles = {
+  headRow: {
+    style: {
+      border: "none",
+    },
+  },
+  headCells: {
+    style: {
+      color: "#202124",
+      fontSize: "14px",
+      paddingTop: "0px",
+      paddingButtom: "0px",
+      paddingRight: "4px",
+      paddingLent: "4px",
+      backgroundColor: "#D2D2D2",
+    },
+  },
+  rows: {
+    style: {},
+  },
+  cells: {
+    style: {
+      padding: "4px",
+    },
+    draggingStyle: {},
+  },
+  pagination: {
+    style: {
+      border: "none",
+    },
+  },
+};
 
 const DataGrid = (props) => {
   const Export = ({ onExport }) => (
@@ -41,6 +73,8 @@ const DataGrid = (props) => {
         ),
         selector: (row) => row[column.name.toLowerCase()],
         sortable: column.sortable,
+        width: column.width,
+        maxWidth: column.maxWidth,
       };
     });
     setColumns(columns);
@@ -56,8 +90,7 @@ const DataGrid = (props) => {
     selectAllRowsItem: true,
     selectAllRowsItemText: "همه",
     rowsPerPageText: "تعداد در هر صفحه",
-    rangeSeparatorText: "از"
-
+    rangeSeparatorText: "از",
   };
 
   const actionsMemo = React.useMemo(
@@ -82,7 +115,7 @@ const DataGrid = (props) => {
           persistTableHead
           direction="right"
           fixedHeader={props.fixedHeader}
-          fixedHeaderScrollHeight="460px"
+          fixedHeaderScrollHeight="470px"
           highlightOnHover
           noContextMenu
           pagination
@@ -97,11 +130,12 @@ const DataGrid = (props) => {
           actions={actionsMemo}
           progressPending={pending}
           paginationPerPage={10}
-          paginationRowsPerPageOptions={[10,20,50,100,200,300,500,1000]}
+          paginationRowsPerPageOptions={[10, 20, 50, 100, 200, 300, 500, 1000]}
           onRowClicked={(row, event) => {
             // console.log({ row });
             // console.log({ event });
           }}
+          customStyles={customStyles}
         />
       </div>
     </>

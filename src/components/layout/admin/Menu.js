@@ -1,5 +1,5 @@
-// import { Link } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,6 +9,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ExitToApp from "@mui/icons-material/ExitToApp";
 import PasswordIcon from "@mui/icons-material/Password";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import PaymentIcon from "@mui/icons-material/Payment";
+import MessageIcon from "@mui/icons-material/Message";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // redux seters
 import { setLogOut } from "../../redux/reducers/admin";
@@ -22,6 +29,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+
 // import Collapse from "@mui/material/Collapse";
 
 // import PrintIcon from '@mui/icons-material/Print';
@@ -44,7 +53,7 @@ function Menu(props) {
   // redux
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state.adminAuth);
-  // const location = useLocation();
+  const location = useLocation();
   const logOut = props.logOut;
 
   const openMenu = props.Open;
@@ -57,15 +66,20 @@ function Menu(props) {
   const currentPasswordRef = React.useRef(null);
   const newPasswordRef = React.useRef(null);
   const confirmPasswordRef = React.useRef(null);
+  const [openFilter, setOpenFilter] = React.useState(false);
   // const handleClick = () => {
   //   setOpen(!open);
   // };
 
+  const handleClickFilter = () => {
+    setOpenFilter(!openFilter);
+  };
+
   const [openModal, setOpenModal] = React.useState(false);
 
-  // const selectedMenu = (route) => {
-  //   return location.pathname === route ? `panel-link-row` : null;
-  // };
+  const selectedMenu = (route) => {
+    return location.pathname === route ? `panel-link-row` : null;
+  };
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -122,6 +136,75 @@ function Menu(props) {
         dir="ltr"
         aria-labelledby="nested-list-subheader"
       >
+        <Link to="/tariff" className="panel-link">
+          <ListItemButton className={selectedMenu("/tariff")}>
+            {openMenu ? <ListItemText primary="مدیریت شارژ" /> : ""}
+            <ListItemIcon style={styleList}>
+              <AccountBalanceWalletIcon className="ms-auto" />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
+        <Link to="/org" className="panel-link">
+          <ListItemButton className={selectedMenu("/org")}>
+            {openMenu ? <ListItemText primary="سازمان/ارگان ها" /> : ""}
+            <ListItemIcon style={styleList}>
+              <CorporateFareIcon className="ms-auto" />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
+        <Link to="/charge" className="panel-link">
+          <ListItemButton className={selectedMenu("/charge")}>
+            {openMenu ? <ListItemText primary="شارژ اعتبار" /> : ""}
+            <ListItemIcon style={styleList}>
+              <PaymentIcon className="ms-auto" />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
+        <Link to="/message" className="panel-link">
+          <ListItemButton className={selectedMenu("/message")}>
+            {openMenu ? <ListItemText primary="پیام ها  " /> : ""}
+            <ListItemIcon style={styleList}>
+              <MessageIcon className="ms-auto" />
+            </ListItemIcon>
+          </ListItemButton>
+        </Link>
+        <ListItemButton onClick={handleClickFilter}>
+          {openMenu ? openFilter ? <ExpandLessIcon /> : <ExpandMoreIcon /> : ""}
+          {openMenu ? <ListItemText primary=" گزارش ها   " /> : ""}
+
+          <ListItemIcon style={styleList}>
+            <AssessmentIcon className="ms-auto" />
+          </ListItemIcon>
+        </ListItemButton>
+        {openMenu ? (
+          <Collapse in={openFilter} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Link to="/filter/message" className="panel-link">
+                <ListItemButton
+                  sx={{ pr: 4 }}
+                  className={selectedMenu("/filter/message")}
+                >
+                  <ListItemText>
+                    <div className="sub-menu"> پیام ارسالی </div>
+                  </ListItemText>
+                </ListItemButton>
+              </Link>
+
+              <Link to="/filter/org" className="panel-link">
+                <ListItemButton
+                  sx={{ pr: 4 }}
+                  className={selectedMenu("/filter/org")}
+                >
+                  <ListItemText>
+                    <div className="sub-menu"> گزارش سازمان ها </div>
+                  </ListItemText>
+                </ListItemButton>
+              </Link>
+            </List>
+          </Collapse>
+        ) : (
+          ""
+        )}
         <ListItemButton onClick={handleOpenModal}>
           {openMenu ? <ListItemText primary="ویرایش رمز ورود" /> : ""}
 

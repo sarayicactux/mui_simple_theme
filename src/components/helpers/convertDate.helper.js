@@ -1,7 +1,7 @@
 import jalali from "jalali-moment";
 // import $ from "jquery";
 
-import { FromInt } from "./NumberTools";
+import { FromInt } from "./numberTools.helper";
 
 // export class ConvertDate {
 export function jalaliDate(date) {
