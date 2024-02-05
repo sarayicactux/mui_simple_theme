@@ -17,6 +17,7 @@ const GetAll = async (token) => {
       result.push({
         id: faker.number.int({ max: 250 }),
         title: faker.lorem.word(),
+        price: faker.commerce.price({ min: 50000, max: 200000 }),
         description: faker.lorem.paragraph(),
         status: faker.number.binary(),
         createdAt: faker.date.anytime(),

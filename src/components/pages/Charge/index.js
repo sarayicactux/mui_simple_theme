@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 // API **************************************************
 import GetAll from "../../api/admin/charge/GetAll";
 import Status from "../../api/admin/charge/UpdateStatus";
-import GetOne from "../../api/admin/charge/GetOne";
 
 // MUI **************************************************
 import Card from "@mui/material/Card";
@@ -15,7 +14,6 @@ import Switch from "@mui/material/Switch";
 // MUi Icon **************************************************
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
-import InfoIcon from "@mui/icons-material/Info";
 
 import Tooltip from "@mui/material/Tooltip";
 
@@ -24,14 +22,13 @@ import {
   jalaliDate,
   jalaliDateWithTime,
 } from "../../helpers/convertDate.helper";
-import { FromInt } from "../../helpers/numberTools.helper";
+import { FromInt, numberComify } from "../../helpers/numberTools.helper";
 // component **************************************************
 import DataGrid from "../../ui/grid/DataGrid";
 
 // modals *******************************************************
 import CreateChargeModal from "../../ui/modals/charge/CreateChargeModal";
-// import UpdateChargeModal from "../../ui/modal/charge/UpdateChargeModal";
-// import ChargeDetailModal from "../../ui/modal/charge/ChargeDetailModal";
+import UpdateChargeModal from "../../ui/modals/charge/UpdateChargeModal";
 
 // other package **************************************************
 import { SuccessNotify, ErrorNotify } from "../../ui/Toast";
@@ -61,6 +58,15 @@ const columns = [
   {
     name: "title",
     title: "عنوان",
+    type: "text",
+    sortable: false,
+    searchable: true,
+    width: "180px",
+    maxWidth: "180px",
+  },
+  {
+    name: "price",
+    title: "تعرفه",
     type: "text",
     sortable: false,
     searchable: true,
@@ -140,17 +146,6 @@ const Charges = () => {
             />
           </span>
         </Tooltip>
-
-        <Tooltip title={"مشاهده جزئیات "} arrow>
-          <span
-            className="pointer"
-            onClick={() => {
-              findDetail(item.id);
-            }}
-          >
-            <InfoIcon fontSize="small" sx={{ m: 0.5, cursor: "pointer" }} />
-          </span>
-        </Tooltip>
       </>
     );
   };
@@ -189,6 +184,7 @@ const Charges = () => {
           </Tooltip>
         ),
         title: item.title,
+        price: FromInt(numberComify(item.price)),
         description: (
           <Tooltip title={item.description} arrow>
             <span>{item.description}</span>
@@ -205,34 +201,10 @@ const Charges = () => {
     });
   };
 
-  // find detail
-
-  const findDetail = async (id) => {
-    dispatch(setIsLoading(true));
-    const result = await GetOne(token, id);
-    if (result.status === 403) {
-      ErrorNotify(JSON.parse(result.response).error);
-      dispatch(setLogOut());
-      return;
-    }
-    if (result.status === 404) {
-      ErrorNotify(" موردی یافت نشد ");
-      return;
-    }
-    if (result.status !== 200) {
-      ErrorNotify(JSON.parse(result.response).error);
-      return;
-    }
-    if (result.status === 200) {
-      setDetail(result.data);
-      setOpenDetailModal(true);
-      dispatch(setIsLoading(false));
-      return;
-    }
-  };
-
   // upadate Status
   const updateActiveStatus = async (id, active) => {
+    SuccessNotify(" وضعیت با موفقیت به روز رسانی شد ");
+    return;
     const result = await Status(token, id, active);
     if (result.status === 403) {
       dispatch(setLogOut());
@@ -299,22 +271,17 @@ const Charges = () => {
           </Grid>
         </Grid>
       </Card>
-       <CreateChargeModal
+      <CreateChargeModal
         openModal={openCreateModal}
         setOpenModal={setOpenCreateModal}
         findCharges={findCharges}
       />
-      {/*<UpdateChargeModal
-        openUpdateModal={openUpdateModal}
-        setOpenUpdateModal={setOpenUpdateModal}
+      <UpdateChargeModal
+        openModal={openUpdateModal}
+        setOpenModal={setOpenUpdateModal}
         findCharges={findCharges}
         charge={charge}
       />
-      <ChargeDetailModal
-        openDetailModal={openDetailModal}
-        setOpenDetailModal={setOpenDetailModal}
-        detail={detail}
-      /> */}
     </Box>
   );
 };
