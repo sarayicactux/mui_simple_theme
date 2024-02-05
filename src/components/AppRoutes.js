@@ -5,6 +5,7 @@ import ProtectAdminLogin from "./permissions/ProtectAdminLogin";
 
 import Dash from "./pages/dash";
 import Charge from "./pages/Charge"
+import Org from "./pages/Org"
 
 import AdminLogin from "./pages/Login";
 import P404 from "./pages/P404";
@@ -15,6 +16,7 @@ const AppRoutes = () => {
       <Route path="/" element={<ProtectAdminRoute component={Dash} exact />} />
       <Route path="" element={<ProtectAdminRoute component={Dash} exact />} />
       <Route path="tariff" element={<ProtectAdminRoute component={Charge} />} />
+      <Route path="org" element={<ProtectAdminRoute component={Org} />} />
 
       <Route
         path="/login"

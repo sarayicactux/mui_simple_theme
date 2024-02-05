@@ -56,11 +56,11 @@ const UpdateDesignModal = (props) => {
   const submitForm = async (event) => {
     event.preventDefault();
 
-    if (!title || title.lenth < 3) {
+    if (!title || title.length < 3) {
       ErrorNotify(" عنوان وارد نشده یا معتبر نیست  ");
       return;
     }
-    if (!price || price.lenth < 3) {
+    if (!price || price.length < 3) {
       ErrorNotify(" قیمت وارد نشده یا معتبر نیست  ");
       return;
     }
