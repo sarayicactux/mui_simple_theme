@@ -45,7 +45,7 @@ const columns = [
     type: "number",
     sortable: true,
     searchable: false,
-    width: "60px",
+    width: "70px",
   },
   {
     name: "created_at",
@@ -59,7 +59,7 @@ const columns = [
     name: "title",
     title: "عنوان",
     type: "text",
-    sortable: false,
+    sortable: true,
     searchable: true,
     width: "180px",
     maxWidth: "180px",
