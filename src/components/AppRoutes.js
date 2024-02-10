@@ -3,9 +3,9 @@ import React from "react";
 import ProtectAdminRoute from "./permissions/ProtectAdminRoute";
 import ProtectAdminLogin from "./permissions/ProtectAdminLogin";
 
-import Dash from "./pages/dash";
-import Charge from "./pages/Charge"
-import Org from "./pages/Org"
+import Dash from "./pages/Dash";
+import Charge from "./pages/Charge";
+import Org from "./pages/Org";
 
 import AdminLogin from "./pages/Login";
 import P404 from "./pages/P404";

@@ -6,14 +6,14 @@ import { BrowserRouter } from "react-router-dom";
 import { ReactNotifications } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
-import "./assests";
+import "./assests/index.js";
 // third-party
 import { Provider as ReduxProvider } from "react-redux";
-import { store } from "./components/redux";
+import { store } from "./components/redux/index.js";
 
 import App from "./App.js";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration.js";
+import reportWebVitals from "./reportWebVitals.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
