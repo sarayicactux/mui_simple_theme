@@ -28,7 +28,7 @@
 
     // on mobile -> show subnavigation on click
     // for(var i = 0; i < dropdownItems.length; i++) {
-    //   // eslint-disable-next-line no-loop-func
+    //  
     //   (function(i){
     //     dropdownItems[i].children[0].addEventListener('click', function(event){
     //       if(checkMQ() == 'mobile') {
