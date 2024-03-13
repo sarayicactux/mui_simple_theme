@@ -46,7 +46,7 @@ const columns = [
     type: "number",
     sortable: true,
     searchable: false,
-    width: "70px",
+    width: "60px",
   },
   {
     name: "created_at",
@@ -54,13 +54,13 @@ const columns = [
     type: "text",
     sortable: false,
     searchable: false,
-    width: "100px",
+    width: "90px",
   },
   {
     name: "title",
     title: "عنوان",
     type: "text",
-    sortable: true,
+    sortable: false,
     searchable: true,
     width: "180px",
     maxWidth: "180px",
@@ -70,9 +70,9 @@ const columns = [
     title: "تعرفه",
     type: "text",
     sortable: false,
-    searchable: true,
-    width: "180px",
-    maxWidth: "180px",
+    searchable: false,
+    width: "130px",
+    maxWidth: "130px",
   },
   {
     name: "description",
@@ -80,8 +80,8 @@ const columns = [
     type: "text",
     sortable: false,
     searchable: false,
-    width: "250px",
-    maxWidth: "250px",
+    width: "200px",
+    maxWidth: "200px",
   },
   {
     name: "active_text",
@@ -104,7 +104,7 @@ const columns = [
     name: "action",
     title: "عملیات",
     type: "text",
-    sortable: true,
+    sortable: false,
     searchable: false,
   },
 ];
@@ -118,12 +118,10 @@ const Charges = () => {
 
   // HOOKS PAGE **************************************************
   const [charge, setCharge] = React.useState(false);
-  const [detail, setDetail] = React.useState(false);
 
   // modal
   const [openCreateModal, setOpenCreateModal] = React.useState(false);
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
-  const [openDetailModal, setOpenDetailModal] = React.useState(false);
 
   // get list
   const [charges, setCharges] = React.useState([]);
@@ -159,11 +157,10 @@ const Charges = () => {
       return;
     }
     if (result.status !== 200) {
-      ErrorNotify(JSON.parse(result.response).error);
+      ErrorNotify(JSON.parse(result.data).error);
       return;
     }
-
-    setCharges(createDataGridJson(result.data.charges));
+    setCharges(createDataGridJson(result.data));
     dispatch(setIsLoading(false));
   };
 
@@ -171,9 +168,12 @@ const Charges = () => {
     return data.map((item, index) => {
       const publishStatus = (
         <Switch
-          defaultChecked={item.status === 1 ? true : false}
+          defaultChecked={item.status === "ACTIVE" ? true : false}
           onChange={(e) => {
-            updateActiveStatus(item.id, item.status === 1 ? 0 : 1);
+            updateActiveStatus(
+              item.id,
+              item.status === "ACTIVE" ? "DEACTIVE" : "ACTIVE"
+            );
           }}
         />
       );
@@ -203,25 +203,24 @@ const Charges = () => {
   };
 
   // upadate Status
-  const updateActiveStatus = async (id, active) => {
-    SuccessNotify(" وضعیت با موفقیت به روز رسانی شد ");
-    return;
-    const result = await Status(token, id, active);
+  const updateActiveStatus = async (id, status) => {
+    const result = await Status(token, id, status);
     if (result.status === 403) {
+      ErrorNotify(JSON.parse(result.data).error);
       dispatch(setLogOut(null));
+      return;
+    }
+    if (result.status === 400) {
+      ErrorNotify(" مقادیر به درستی وارد نشده است ");
 
       return;
     }
-    if (result.status === 406) {
-      ErrorNotify(JSON.parse(result.response).error);
-      return;
-    }
     if (result.status === 404) {
-      ErrorNotify(JSON.parse(result.response).error);
+      ErrorNotify("  مقداری یافت نشد ");
       return;
     }
     if (result.status !== 200) {
-      ErrorNotify(JSON.parse(result.response).error);
+      ErrorNotify(JSON.parse(result.data).error);
       return;
     }
     SuccessNotify(" وضعیت با موفقیت به روز رسانی شد ");
@@ -233,8 +232,8 @@ const Charges = () => {
   React.useEffect(() => {
     dispatch(
       setMetaData({
-        title: "پیام خوان :    مدیریت شارژها",
-        description: "پیام خوان :  مدیریت شارژها",
+        title: "پیام خوان :    مدیریت تعرفه ها",
+        description: "پیام خوان :  مدیریت تعرفه ها",
       })
     );
 
@@ -281,7 +280,7 @@ const Charges = () => {
         openModal={openUpdateModal}
         setOpenModal={setOpenUpdateModal}
         findCharges={findCharges}
-        charge={charge}
+        tariff={charge}
       />
     </Box>
   );

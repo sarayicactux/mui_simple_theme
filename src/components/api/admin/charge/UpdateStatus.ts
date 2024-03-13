@@ -7,15 +7,15 @@ const UpdateStatus = async (token, id, active) => {
     },
   };
   try {
-    const result = await axios.patch(
-      `${process.env.REACT_APP_HOST}admin/charge`,
-      { id, active },
+    const { data, status } = await axios.patch(
+      `${process.env.REACT_APP_HOST}admin/tariff`,
+      { id, status: active },
       config
     );
 
-    return result;
+    return { data, status };
   } catch (error) {
-    return error.request;
+    return { data: error.request, status: error.request.status };
   }
 };
 

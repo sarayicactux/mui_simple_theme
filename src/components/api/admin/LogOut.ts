@@ -7,13 +7,13 @@ const LogOut = async (token) => {
     },
   };
   try {
-    const result = await axios.get(
+    const { data, status } = await axios.get(
       `${process.env.REACT_APP_HOST}admin/logOut`,
       config
     );
-    return result;
+    return { data, status };
   } catch (error) {
-    return false;
+    return { data: error.request, status: error.request.status };
   }
 };
 

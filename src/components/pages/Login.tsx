@@ -1,5 +1,5 @@
 import React from "react";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -36,7 +36,7 @@ const Login = () => {
     const result = await LoginApi(username, password);
     dispatch(setIsLoading(false));
     if (result) {
-      Cookies.set("messengerAdminAdmin", result.data.token, { expires: 7 });
+      Cookies.set("messengerAdmin", result.data.token, { expires: 7 });
       dispatch(
         setAuth({
           token: result.data.token,
@@ -57,7 +57,6 @@ const Login = () => {
       })
     );
     dispatch(setIsLoading(false));
-
   }, []);
   return (
     <ThemeProvider theme={theme}>

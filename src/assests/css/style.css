@@ -39,8 +39,12 @@
 .Mui-disabled {
   color: #000 !important;
 }
-.muirtl-1cmhxc4-MuiPaper-root-MuiCard-root{
+.muirtl-1cmhxc4-MuiPaper-root-MuiCard-root {
   margin-top: 0px !important;
+}
+.muirtl-mg03br-MuiGrid-root {
+  padding-top: 10px !important;
+  padding-bottom: 0px !important;
 }
 .button {
   font-family: fontSite !important;
@@ -54,6 +58,14 @@
 h1 {
   text-align: right !important;
   direction: rtl !important;
+  font-family: fontSite !important;
+}
+.error-message {
+  color: red;
+  font-size: 10px;
+  min-height: 15px;
+  padding: 0;
+  margin: 0;
   font-family: fontSite !important;
 }
 @media screen and (max-width: 768px) {

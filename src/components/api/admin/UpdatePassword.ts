@@ -1,24 +1,23 @@
 import axios from "axios";
 
 const UpdatePasswordApi = async (token, oldPassword, newPassword) => {
-  const data = {
-    oldPassword,
-    newPassword,
-  };
   const config = {
     headers: {
       jtoken: token,
     },
   };
   try {
-    const result = await axios.put(
+    const { data, status } = await axios.put(
       `${process.env.REACT_APP_HOST}admin/updatePassword`,
-      data,
+      {
+        oldPassword,
+        newPassword,
+      },
       config
     );
-    return result;
+    return { data, status };
   } catch (error) {
-    return error.request;
+    return { data: error.request, status: error.request.status };
   }
 };
 

@@ -1,25 +1,25 @@
 import axios from "axios";
 
-const Update = async (token, id, title, description) => {
+const Update = async (token, id, price, title, description) => {
   const config = {
     headers: {
       jtoken: token,
     },
   };
-  const data = {
-    id,
-    title,
-    description,
-  };
   try {
-    const result = await axios.put(
-      `${process.env.REACT_APP_HOST}admin/charge`,
-      data,
+    const { data, status } = await axios.put(
+      `${process.env.REACT_APP_HOST}admin/tariff`,
+      {
+        id,
+        price,
+        title,
+        description,
+      },
       config
     );
-    return result;
+    return { data, status };
   } catch (error) {
-    return error.request;
+    return { data: error.request, status: error.request.status };
   }
 };
 

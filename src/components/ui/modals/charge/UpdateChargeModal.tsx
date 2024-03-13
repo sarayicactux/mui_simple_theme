@@ -2,7 +2,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 // API **************************************************
-import Create from "../../../api/admin/charge/Create";
+import Update from "../../../api/admin/charge/Update";
 
 // MUI **************************************************
 import TextField from "@mui/material/TextField";
@@ -22,6 +22,7 @@ import { SuccessNotify, ErrorNotify } from "../../Toast";
 
 // redux seters
 import { setLogOut } from "../../../redux/reducers/admin";
+import { RootState } from "../../../redux/reducers";
 
 // STYLE MODAL
 const style = {
@@ -38,9 +39,9 @@ const UpdateDesignModal = (props) => {
   // HOOKS CONST **************************************************
   // redux
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.adminAuth);
   const token = auth.token;
-  const { openModal, setOpenModal, findCharges, charge } = props;
+  const { openModal, setOpenModal, findCharges, tariff } = props;
   // HOOKS FORM **************************************************
   const [sending, setSending] = React.useState(false);
 
@@ -52,12 +53,12 @@ const UpdateDesignModal = (props) => {
   const [price, setPrice] = React.useState(null);
 
   React.useEffect(() => {
-    if (charge) {
-      setTitle(charge.title);
-      setDescription(charge.description);
-      setPrice(charge.price);
+    if (tariff) {
+      setTitle(tariff.title);
+      setDescription(tariff.description);
+      setPrice(tariff.price);
     }
-  }, [charge]);
+  }, [tariff]);
   // SUBMIT **************************************************
   const submitForm = async (event) => {
     event.preventDefault();
@@ -72,10 +73,10 @@ const UpdateDesignModal = (props) => {
     }
 
     setSending(true);
-    const result = await Create(token, price, title, description);
+    const result = await Update(token, tariff.id, price, title, description);
     if (result.status === 403) {
-      ErrorNotify(JSON.parse(result.response).error);
-      dispatch(setLogOut());
+      ErrorNotify(JSON.parse(result.data).error);
+      dispatch(setLogOut(null));
       return;
     }
     if (result.status === 400) {
@@ -85,7 +86,7 @@ const UpdateDesignModal = (props) => {
       return;
     }
     if (result.status !== 200) {
-      ErrorNotify(JSON.parse(result.response).error);
+      ErrorNotify(JSON.parse(result.data).error);
       setSending(false);
       return;
     }
@@ -105,15 +106,10 @@ const UpdateDesignModal = (props) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box
-        sx={style}
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Box sx={style} justifyContent="center" alignItems="center">
         <Grid item xs={12} md={12} alignItems="center">
           <Typography variant="h5" gutterBottom>
-            به روز رسانی {charge.title}
+            به روز رسانی {tariff ? tariff.title : null}
           </Typography>
         </Grid>
         <hr />
@@ -138,7 +134,7 @@ const UpdateDesignModal = (props) => {
                   label="عنوان"
                   name="title"
                   size="small"
-                  defaultValue={charge ? charge.title : null}
+                  defaultValue={tariff ? tariff.title : null}
                   sx={{ width: "100%" }}
                   onChange={(event) => {
                     setTitle(event.target.value);
@@ -152,7 +148,7 @@ const UpdateDesignModal = (props) => {
                   type="number"
                   name="price"
                   size="small"
-                  defaultValue={charge ? charge.price : null}
+                  defaultValue={tariff ? tariff.price : null}
                   sx={{ width: "100%" }}
                   onChange={(event) => {
                     setPrice(event.target.value);
@@ -167,7 +163,7 @@ const UpdateDesignModal = (props) => {
                   name="Description"
                   size="small"
                   multiline
-                  defaultValue={charge ? charge.description : null}
+                  defaultValue={tariff ? tariff.description : null}
                   rows={3}
                   sx={{ width: "100%" }}
                   onChange={(event) => {
@@ -177,7 +173,7 @@ const UpdateDesignModal = (props) => {
               </Grid>
               <Grid item xs={6}>
                 <LoadingButton
-                  size="normal"
+                  size="medium"
                   type="submit"
                   startIcon={<SendIcon />}
                   loading={sending}

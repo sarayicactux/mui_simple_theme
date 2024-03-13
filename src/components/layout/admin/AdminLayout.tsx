@@ -32,7 +32,6 @@ import { RootState } from "../../redux/reducers";
 
 const drawerWidth = 240;
 
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -113,7 +112,7 @@ function AdminLayout(props) {
   };
   const logOut = () => {
     LogOut(token);
-    Cookies.remove("messengerAdminAdmin");
+    Cookies.remove("messengerAdmin");
     dispatch(setLogOut(null));
   };
   // const actions = [

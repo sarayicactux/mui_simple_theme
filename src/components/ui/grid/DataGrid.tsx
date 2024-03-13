@@ -22,8 +22,8 @@ const customStyles = {
       fontSize: "14px",
       paddingTop: "0px",
       paddingButtom: "0px",
-      paddingRight: "4px",
-      paddingLent: "4px",
+      paddingRight: "2px",
+      paddingLent: "2px",
       backgroundColor: "#D2D2D2",
     },
   },
@@ -32,7 +32,7 @@ const customStyles = {
   },
   cells: {
     style: {
-      padding: "4px",
+      padding: "2px",
     },
     draggingStyle: {},
   },
@@ -114,7 +114,7 @@ const DataGrid = (props) => {
           data={filteredItems}
           persistTableHead
           fixedHeader={props.fixedHeader}
-          fixedHeaderScrollHeight="470px"
+          fixedHeaderScrollHeight="440px"
           highlightOnHover
           noContextMenu
           pagination

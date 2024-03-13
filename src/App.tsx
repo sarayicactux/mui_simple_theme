@@ -13,7 +13,6 @@ import AddLibrary from "./components/ui/jsLib";
 
 import AllProsApi from "./components/api/common/AllPros";
 
-
 import AppRoutes from "./components/AppRoutes";
 import "bootstrap";
 
@@ -42,11 +41,11 @@ const App: React.FC<{}> = () => {
     });
     dispatch(setAllStates(theStates));
     // کنترل توکن ادمین
-    const adminToken = Cookies.get("messengerAdminAdmin");
+    const adminToken = Cookies.get("messengerAdmin");
     if (adminToken && adminToken !== "undefined") {
       const adminResult = await GetAdminInf(adminToken);
       if (adminResult) {
-        Cookies.set("messengerAdminAdmin", adminResult.data.token, {
+        Cookies.set("messengerAdmin", adminResult.data.token, {
           expires: 7,
         });
         dispatch(

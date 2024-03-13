@@ -7,14 +7,14 @@ const GetOne = async (token, chargeId) => {
     },
   };
   try {
-    const result = await axios.get(
-      `${process.env.REACT_APP_HOST}admin/charge/detail/${chargeId}`,
+    const { data, status } = await axios.get(
+      `${process.env.REACT_APP_HOST}admin/tariff/${chargeId}`,
       config
     );
 
-    return result;
+    return { data, status };
   } catch (error) {
-    return error.request;
+    return { data: error.request, status: error.request.status };
   }
 };
 

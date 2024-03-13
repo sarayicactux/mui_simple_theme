@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 // API **************************************************
 import Create from "../../../api/admin/charge/Create";
 
@@ -37,6 +38,11 @@ const style = {
 };
 const UpdateDesignModal = (props) => {
   // HOOKS CONST **************************************************
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   // redux
   const dispatch = useDispatch();
   const { auth } = useSelector((state: RootState) => state.adminAuth);
@@ -53,19 +59,9 @@ const UpdateDesignModal = (props) => {
   const [price, setPrice] = React.useState(null);
 
   React.useEffect(() => {}, []);
+
   // SUBMIT **************************************************
-  const submitForm = async (event) => {
-    event.preventDefault();
-
-    if (!title || title.length < 3) {
-      ErrorNotify(" عنوان وارد نشده یا معتبر نیست  ");
-      return;
-    }
-    if (!price || price.length < 3) {
-      ErrorNotify(" قیمت وارد نشده یا معتبر نیست  ");
-      return;
-    }
-
+  const submitForm = async () => {
     setSending(true);
     const result = await Create(token, price, title, description);
     if (result.status === 403) {
@@ -85,7 +81,7 @@ const UpdateDesignModal = (props) => {
       return;
     }
     if (result.status === 200) {
-      SuccessNotify(`  تعرفه شارژ با موفقیت به روز رسانی شد `);
+      SuccessNotify(`  تعرفه شارژ با موفقیت ایجاد شد `);
       findCharges();
       handleClose();
       setSending(false);
@@ -107,7 +103,7 @@ const UpdateDesignModal = (props) => {
           </Typography>
         </Grid>
         <hr />
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleSubmit(submitForm)}>
           <Grid
             container
             direction="row"
@@ -119,7 +115,7 @@ const UpdateDesignModal = (props) => {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              spacing={3}
+              spacing={1}
               columns={{ xs: 12, sm: 12, md: 12 }}
             >
               <Grid item xs={6} sx={{ mx: "auto" }}>
@@ -129,10 +125,19 @@ const UpdateDesignModal = (props) => {
                   name="title"
                   size="small"
                   sx={{ width: "100%" }}
+                  {...register("title", { required: true, minLength: 4 })}
                   onChange={(event) => {
                     setTitle(event.target.value);
                   }}
                 />
+                <div className="error-message">
+                  {errors.title &&
+                    errors.title.type === "required" &&
+                    ` عنوان وارد نشده`}
+                  {errors.title &&
+                    errors.title.type === "minLength" &&
+                    ` عنوان وارد معتبر نیست`}
+                </div>
               </Grid>
               <Grid item xs={6} sx={{ mx: "auto" }}>
                 <TextField
@@ -142,10 +147,19 @@ const UpdateDesignModal = (props) => {
                   name="price"
                   size="small"
                   sx={{ width: "100%" }}
+                  {...register("price", { required: true, minLength: 4 })}
                   onChange={(event) => {
                     setPrice(event.target.value);
                   }}
                 />
+                <div className="error-message">
+                  {errors.price &&
+                    errors.price.type === "required" &&
+                    ` قیمت وارد نشده`}
+                  {errors.price &&
+                    errors.price.type === "minLength" &&
+                    `  قیمت وارد شده صحیح نیست `}
+                </div>
               </Grid>
 
               <Grid item xs={12} sx={{ mx: "auto" }}>

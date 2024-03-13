@@ -8,7 +8,7 @@ const Create = async (token, price, title, description) => {
   };
   try {
     const { data, status } = await axios.post(
-      `${process.env.REACT_APP_HOST}admin/charge`,
+      `${process.env.REACT_APP_HOST}admin/tariff`,
       {
         price,
         title,

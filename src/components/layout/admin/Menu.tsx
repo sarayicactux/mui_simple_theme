@@ -139,7 +139,7 @@ function Menu(props) {
       >
         <Link to="/tariff" className="panel-link">
           <ListItemButton className={selectedMenu("/tariff")}>
-            {openMenu ? <ListItemText primary="مدیریت شارژ" /> : ""}
+            {openMenu ? <ListItemText primary="مدیریت تعرفه ها" /> : ""}
             <ListItemIcon style={styleList}>
               <AccountBalanceWalletIcon className="ms-auto" />
             </ListItemIcon>
