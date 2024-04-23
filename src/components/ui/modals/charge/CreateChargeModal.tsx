@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
