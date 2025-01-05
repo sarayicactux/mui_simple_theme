@@ -33,7 +33,7 @@ import HeaderMobile from '../../common/HeaderMobile';
 import { FromInt } from '../../../helpers/NumberTools';
 
 // redux seters
-import { setAuth } from '../../../redux/reducers/admin';
+import { setAuth } from '../../../redux/reducers/user';
 import { RootState } from '../../../redux/reducers';
 
 import PageSize from '../../../helpers/PageSize';
@@ -111,7 +111,7 @@ function PublicLayout() {
   // const { height, width } = PageSize();
   const { width } = PageSize();
   // redux hooks
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(true);
   const [mobileView, setMobileView] = React.useState(false);
@@ -121,7 +121,7 @@ function PublicLayout() {
     setOpen(!open);
   };
   const logOut = () => {
-    Cookies.remove('weighbridgeAdmin');
+    Cookies.remove('transportCompanyUser');
     dispatch(
       setAuth({
         token: null,
@@ -193,7 +193,7 @@ function PublicLayout() {
                         <MenuIcon />
                       </IconButton>
                       <div className="col-6">
-                        
+
                       </div>
                     </Toolbar>
                   </AppBar>

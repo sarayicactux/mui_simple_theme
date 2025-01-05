@@ -96,8 +96,8 @@ function Footer(props) {
                   </div>
                   <div className="col px-0 text-center">
                     <Link
-                      to="/weighbridge/loading"
-                      className={selectedMenu('/weighbridge/loading')}
+                      to="/transport/loading"
+                      className={selectedMenu('/transport/loading')}
                     >
                       <LocalShippingOutlinedIcon />
                       <p className="footer-link">بارگیری</p>
@@ -105,8 +105,8 @@ function Footer(props) {
                   </div>
                   <div className="col px-0 text-center">
                     <Link
-                      to="/weighbridge/discharge"
-                      className={selectedMenu('/weighbridge/discharge')}
+                      to="/transport/discharge"
+                      className={selectedMenu('/transport/discharge')}
                     >
                       <LocalShippingIcon />
                       <p className="footer-link">تخلیه</p>

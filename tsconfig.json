@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "module": "commonjs",
+    "jsx": "react-jsx",
+    "module": "esnext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -21,10 +21,24 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "lib": ["es2019", "es6", "dom", "webworker"],
+    "lib": [
+      "es2019",
+      "es6",
+      "dom",
+      "webworker"
+    ],
     "noEmit": true,
     "moduleResolution": "node",
-    "typeRoots": ["./typings", "./node_modules/@types","src/types"],
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types",
+      "src/types"
+    ],
     "noImplicitThis": false,
-  }
+    "allowJs": true,
+    "strict": true
+  },
+  "include": [
+    "src"
+  ]
 }

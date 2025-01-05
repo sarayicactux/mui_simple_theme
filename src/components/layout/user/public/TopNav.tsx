@@ -24,7 +24,7 @@ import { RootState } from './../../../redux/reducers';
 
 function TopNav(props) {
   // redux hooks
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const token = auth.token;
 
   const location = useLocation();

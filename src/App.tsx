@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
-import { PwaUpdater } from 'pwa-updater';
+// import { PwaUpdater } from 'pwa-updater';
 
 import DocumentMeta from 'react-document-meta';
 // import RequestForToken, {
@@ -18,10 +18,12 @@ import ScrollTop from './components/helpers/ScrollTop';
 import AppRoutes from './components/routes';
 import 'bootstrap';
 
-// external APIs
+// Api
+import GetUserInf from './components/api/GetUserInf';
 
+// external AP
 // redux setters
-import { setAuth } from './components/redux/reducers/admin';
+import { setAuth } from './components/redux/reducers/user';
 import { RootState } from './components/redux/reducers';
 
 function App() {
@@ -35,16 +37,30 @@ function App() {
 
   // ساختن اطلاعات اولیه صفحه
   const inisializeLanding = async () => {
-    // کنترل توکن ادمین
-    const adminToken = Cookies.get('weighbridgeAdmin');
-    if (adminToken && adminToken !== 'undefined') {
-      dispatch(
+    // کنترل توکن کاربر
+    const userToken = Cookies.get('transportCompanyUser');
+    if (userToken && userToken !== 'undefined') {
+      const result = await GetUserInf(userToken);
+      if (result.status === 200) {
+        Cookies.set('transportCompanyUser', result.data.User.jwtToken, { expires: 7 });
+
+        dispatch(
           setAuth({
-            token: adminToken,
-            adminInfo: {},
+            token: result.data.User.jwtToken,
+            userInfo: result.data,
             isAuthenticated: true,
           }),
         );
+      } else {
+        Cookies.remove('transportCompanyUser');
+        dispatch(
+          setAuth({
+            token: null,
+            userInfo: null,
+            isAuthenticated: false,
+          }),
+        );
+      }
     }
     setChecked(true);
   };
@@ -84,7 +100,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <PwaUpdater notify={true} />
+      {/* <PwaUpdater notify={true} /> */}
       {/* {notifPermission ? <RequestForToken /> : null} */}
       <DocumentMeta {...metaData}>
         <Loading />

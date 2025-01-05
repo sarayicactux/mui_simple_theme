@@ -67,7 +67,7 @@ var styles = {
 };
 
 function MobileMenu(props) {
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const location = useLocation();
   const logOut = props.logOut;
 

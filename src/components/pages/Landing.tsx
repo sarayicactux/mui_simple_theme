@@ -26,7 +26,7 @@ const Landing = () => {
 
   // redux
   const dispatch = useDispatch();
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const token = auth.token;
 
   // catch data **************************************************
@@ -36,8 +36,8 @@ const Landing = () => {
     dispatch(setIsLoading(false));
     dispatch(
       setMetaData({
-        title: 'weighbridge : صفحه اصلی',
-        description: 'weighbridge:  صفحه اصلی',
+        title: 'transport : صفحه اصلی',
+        description: 'transport:  صفحه اصلی',
       }),
     );
     setIsLoaded(true);
@@ -48,7 +48,7 @@ const Landing = () => {
       <b></b>
       <div className="col-12 col-md-12  col-lg-10 col-xl-8  justify-content-center mt-4">
         {isLoaded ? (
-          <div className="row  mb-5">
+          <div className="row  mb-5"> <LandingCardSkeleton />
             {/* <div className="col-12 col-md-10 p-2 mb-2">
               <p>
                 {' '}

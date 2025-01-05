@@ -21,7 +21,7 @@ import SendIcon from '@mui/icons-material/Send';
 // redux seters
 import { RootState } from '../../../redux/reducers';
 import { ErrorNotify, SuccessNotify } from '../../../ui/Toast';
-import { setLogOut } from '../../../redux/reducers/admin';
+import { setLogOut } from '../../../redux/reducers/user';
 
 // STYLE MODAL
 const style = {
@@ -39,7 +39,7 @@ const CreateCarModal = (props) => {
   const { openModal, setOpenModal, findAll, defVals, setDefVals } = props;
 
   const dispatch = useDispatch();
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const token = auth.token;
 
   // HOOKS CONST **************************************************

@@ -32,7 +32,7 @@ import { ErrorNotify, SuccessNotify } from '../../ui/Toast';
 // redux seters
 import { RootState } from '../../redux/reducers';
 import { setIsLoading, setMetaData } from '../../redux/reducers/page';
-import { setLogOut } from '../../redux/reducers/admin';
+import { setLogOut } from '../../redux/reducers/user';
 import {
   jalaliDate,
   jalaliDateWithTime,
@@ -130,7 +130,7 @@ const createRandomUser = () => {
 const CarDriver = (props) => {
   // redux
   const dispatch = useDispatch();
-  const { auth } = useSelector((state: RootState) => state.adminAuth);
+  const { auth } = useSelector((state: RootState) => state.userAuth);
   const token = auth.token;
 
   const [findCars, setFindCars] = React.useState([]);

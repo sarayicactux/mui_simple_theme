@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,39 +12,67 @@ import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+// Api
+import LoginApi from '../api/Login';
 
 // redux seters
-import { setAuth } from '../redux/reducers/admin';
+import { setAuth } from '../redux/reducers/user';
+import { RootState } from '../redux/reducers';
 import { setMetaData, setIsLoading } from '../redux/reducers/page';
+
+
+const Wating = () => (
+  <CircularProgress size="24px" color="inherit" />
+
+);
 
 const theme = createTheme();
 const Login = () => {
-  const [btnText, setBtnText] = React.useState('ورود');
-  const usernameRef = React.useRef(null);
-  const passwordRef = React.useRef(null);
+  const { firebaseToken } = useSelector((state: RootState) => state.page);
+
+  const [loginBtnText, setLoginBtnText] = useState<string | JSX.Element>('ورود');
+  const [password, setPassword] = useState('');
+  const [mobile, setMobile] = useState('');
   // redux
   const dispatch = useDispatch();
 
+  // handle change mobile
+  const handleChangeMobile = (e) => {
+    setMobile(e.target.value);
+  };
+  // handle change password
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
   const loginHandler = async (event) => {
     event.preventDefault();
-    const username = usernameRef.current.value;
-    const password = passwordRef.current.value;
-    if (password.length < 3 || username.length < 3) {
-      setBtnText('نام کاربری و رمز عبور صحیح نیست');
-      setTimeout(() => setBtnText('ورود'), 1500);
+
+    if (password.length < 3 || mobile.length < 3) {
+      setLoginBtnText('شماره موبایل و رمز عبور صحیح نیست');
+      setTimeout(() => setLoginBtnText('ورود'), 1500);
       return;
     }
+    setLoginBtnText(<Wating />);
 
-    dispatch(setIsLoading(true));
-    Cookies.set('weighbridgeAdmin', 'result.data.jwtToken', { expires: 7 });
-    dispatch(
-      setAuth({
-        token: 'result.data.jwtToken',
-        adminInfo: { info: 'result.data' },
-        isAuthenticated: true,
-      }),
-    );
-    dispatch(setIsLoading(false));
+    const result = await LoginApi(mobile, password, firebaseToken);
+    if (result.status === 200) {
+
+      Cookies.set('transportCompanyUser', result.data.User.jwtToken, { expires: 7 });
+      dispatch(
+        setAuth({
+          token: result.data.User.jwtToken,
+          adminInfo: result.data,
+          isAuthenticated: true,
+        }),
+      );
+    } else {
+      setLoginBtnText('شماره موبایل و رمز عبور صحیح نیست');
+      setTimeout(() => setLoginBtnText('ورود'), 1500);
+    }
   };
 
   React.useEffect(() => {
@@ -85,10 +113,10 @@ const Login = () => {
               margin="normal"
               required
               fullWidth
-              inputRef={usernameRef}
-              id="username"
-              label="نام کاربری"
-              name="username"
+              onChange={handleChangeMobile}
+              id="mobile"
+              label="شماره موبایل "
+              name="mobile"
               autoFocus
             />
             <TextField
@@ -96,7 +124,7 @@ const Login = () => {
               margin="normal"
               required
               fullWidth
-              inputRef={passwordRef}
+              onChange={handleChangePassword}
               name="password"
               label="رمز عبور"
               type="password"
@@ -108,7 +136,7 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {btnText}
+              {loginBtnText}
             </Button>
           </Box>
         </Box>
